@@ -10,9 +10,10 @@ class Bullet:
         speed: 子弹速度（正数向下，负数向上）
         direction: 子弹方向（1向下，-1向上）
         color: 子弹颜色
+        damage: 子弹伤害值
     """
     
-    def __init__(self, x, y, direction=1):
+    def __init__(self, x, y, direction=1, damage=10):
         """
         初始化子弹
         
@@ -20,10 +21,12 @@ class Bullet:
             x: 子弹初始x坐标
             y: 子弹初始y坐标
             direction: 子弹方向，1表示向下（敌人子弹），-1表示向上（玩家子弹）
+            damage: 子弹伤害值，默认为10
         """
         self.rect = pygame.Rect(x - BULLET_WIDTH // 2, y, BULLET_WIDTH, BULLET_HEIGHT)
         self.speed = BULLET_SPEED * direction
         self.direction = direction
+        self.damage = damage
         # 根据方向设置颜色
         self.color = PLAYER_BULLET_COLOR if direction == -1 else BULLET_COLOR
 

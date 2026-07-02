@@ -132,8 +132,8 @@ class Game:
                 for bullet in enemy.bullets[:]:
                     if bullet.rect.colliderect(self.player.rect):
                         enemy.bullets.remove(bullet)
-                        # 玩家受到伤害，如果死亡则游戏结束
-                        if self.player.take_damage(10):
+                        # 玩家受到伤害（伤害值等于子弹攻击力），如果死亡则游戏结束
+                        if self.player.take_damage(bullet.damage):
                             self.current_state = GameState.GAME_OVER
                         break
                 

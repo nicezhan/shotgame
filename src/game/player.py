@@ -54,12 +54,12 @@ class Player:
         self.rect.y = max(SCREEN_HEIGHT // 2, min(SCREEN_HEIGHT - self.rect.height, self.rect.y))
 
     def shoot(self):
-        """发射子弹（带冷却时间限制）"""
+        """发射子弹（带冷却时间限制），伤害值固定为20"""
         now = pygame.time.get_ticks()
         # 检查是否超过冷却时间
         if now - self.last_shoot_time > self.shoot_cooldown:
-            # 创建子弹，从玩家顶部发射，方向向上
-            bullet = Bullet(self.rect.centerx, self.rect.top, direction=-1)
+            # 创建子弹，从玩家顶部发射，方向向上，伤害值固定为20
+            bullet = Bullet(self.rect.centerx, self.rect.top, direction=-1, damage=20)
             self.bullets.append(bullet)
             self.last_shoot_time = now
 
@@ -105,7 +105,7 @@ class Player:
 
     def take_damage(self, amount):
         """
-        玩家受到伤害
+        玩家受到伤害（伤害值由子弹攻击力决定）
         
         参数:
             amount: 伤害值

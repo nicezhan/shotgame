@@ -8,12 +8,14 @@ class Enemy:
     敌人类，负责敌人的移动、射击、碰撞检测和绘制
     
     属性:
-        type: 敌人类型（'basic', 'fast', 'tank'）
+        type: 敌人类型（'minion', 'elite', 'boss'）
         width: 敌人宽度
         height: 敌人高度
         speed: 移动速度
         health: 当前生命值
         max_health: 最大生命值
+        attack: 攻击力（子弹伤害）
+        defense: 防御力（减少受到的伤害）
         color: 敌人颜色
         score: 击杀敌人获得的分数
         shoot_interval: 射击间隔（毫秒）
@@ -25,21 +27,23 @@ class Enemy:
         change_direction_interval: 改变移动方向的间隔时间
     """
     
-    def __init__(self, enemy_type='basic'):
+    def __init__(self, enemy_type='minion'):
         """
         初始化敌人
         
         参数:
-            enemy_type: 敌人类型，默认为'basic'
+            enemy_type: 敌人类型，默认为'minion'
         """
         # 根据敌人类型获取配置
-        config = ENEMY_TYPES.get(enemy_type, ENEMY_TYPES['basic'])
+        config = ENEMY_TYPES.get(enemy_type, ENEMY_TYPES['minion'])
         self.type = enemy_type
         self.width = config['width']
         self.height = config['height']
         self.speed = config['speed']
         self.health = config['health']
         self.max_health = config['health']
+        self.attack = config['attack']
+        self.defense = config['defense']
         self.color = config['color']
         self.score = config['score']
         self.shoot_interval = config['shoot_interval']
@@ -91,29 +95,31 @@ class Enemy:
 
     def shoot(self, player):
         """
-        敌人射击（带间隔限制）
+        敌人射击（带间隔限制），子弹伤害等于敌人攻击力
         
         参数:
             player: 玩家对象（当前未使用，敌人向正下方射击）
         """
         now = pygame.time.get_ticks()
         if now - self.last_shoot_time > self.shoot_interval:
-            # 创建子弹，从敌人底部发射，方向向下
-            bullet = Bullet(self.rect.centerx, self.rect.bottom, direction=1)
+            # 创建子弹，从敌人底部发射，方向向下，伤害等于敌人攻击力
+            bullet = Bullet(self.rect.centerx, self.rect.bottom, direction=1, damage=self.attack)
             self.bullets.append(bullet)
             self.last_shoot_time = now
 
     def take_damage(self, amount):
         """
-        敌人受到伤害
+        敌人受到伤害（考虑防御力减伤）
         
         参数:
-            amount: 伤害值
+            amount: 基础伤害值
             
         返回:
             bool: 如果生命值<=0返回True（敌人死亡），否则返回False
         """
-        self.health -= amount
+        # 计算实际伤害：基础伤害 - 防御力，最低伤害为1
+        actual_damage = max(1, amount - self.defense)
+        self.health -= actual_damage
         return self.health <= 0
 
     def is_off_screen(self):

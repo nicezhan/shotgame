@@ -35,34 +35,49 @@ ENEMY_COLOR = (139, 69, 19) # 敌人基础颜色（棕色）
 ENEMY_SPAWN_INTERVAL = 2000 # 敌人生成间隔（毫秒）
 
 # 敌人类型配置字典
-# 包含三种敌人：basic(普通), fast(快速), tank(坦克)
+# 包含三种敌人：minion(普通小怪), elite(精英小怪), boss(BOSS)
+# 属性说明:
+#   width/height: 敌人尺寸
+#   speed: 移动速度
+#   health: 生命值
+#   attack: 攻击力（子弹伤害）
+#   defense: 防御力（减少受到的伤害）
+#   color: 敌人颜色
+#   score: 击杀获得分数
+#   shoot_interval: 射击间隔（毫秒）
 ENEMY_TYPES = {
-    'basic': {
+    'minion': {
         'width': 45,
         'height': 55,
         'speed': 2,
         'health': 30,
+        'attack': 10,
+        'defense': 0,
         'color': (139, 69, 19),
         'score': 100,
         'shoot_interval': 3000
     },
-    'fast': {
-        'width': 40,
-        'height': 45,
-        'speed': 4,
-        'health': 20,
+    'elite': {
+        'width': 50,
+        'height': 60,
+        'speed': 3,
+        'health': 60,
+        'attack': 20,
+        'defense': 5,
         'color': (255, 69, 0),
-        'score': 150,
+        'score': 250,
         'shoot_interval': 2000
     },
-    'tank': {
-        'width': 60,
-        'height': 70,
+    'boss': {
+        'width': 100,
+        'height': 120,
         'speed': 1,
-        'health': 100,
-        'color': (80, 80, 80),
-        'score': 300,
-        'shoot_interval': 4000
+        'health': 500,
+        'attack': 30,
+        'defense': 15,
+        'color': (128, 0, 128),
+        'score': 1000,
+        'shoot_interval': 1500
     }
 }
 
@@ -70,19 +85,19 @@ ENEMY_TYPES = {
 LEVELS = [
     {
         'name': 'Level 1 - Training Camp',
-        'enemies': [{'type': 'basic', 'count': 5}],
+        'enemies': [{'type': 'minion', 'count': 5}],
         'spawn_interval': 2000,
         'bg_color': (30, 30, 50)
     },
     {
         'name': 'Level 2 - Jungle',
-        'enemies': [{'type': 'basic', 'count': 5}, {'type': 'fast', 'count': 3}],
+        'enemies': [{'type': 'minion', 'count': 5}, {'type': 'elite', 'count': 3}],
         'spawn_interval': 1500,
         'bg_color': (20, 50, 30)
     },
     {
         'name': 'Level 3 - Fortress',
-        'enemies': [{'type': 'basic', 'count': 4}, {'type': 'fast', 'count': 4}, {'type': 'tank', 'count': 2}],
+        'enemies': [{'type': 'minion', 'count': 4}, {'type': 'elite', 'count': 4}, {'type': 'boss', 'count': 1}],
         'spawn_interval': 1200,
         'bg_color': (40, 40, 40)
     }
