@@ -1,4 +1,6 @@
-from .constants import LEVELS
+import pygame
+import os
+from .constants import LEVELS, SCREEN_WIDTH, SCREEN_HEIGHT
 
 class Level:
     """
@@ -11,9 +13,12 @@ class Level:
         enemies: 敌人类型列表（按生成顺序排列）
         spawn_interval: 敌人生成间隔（毫秒）
         bg_color: 关卡背景颜色
+        bg_image: 关卡背景图片
         enemy_index: 当前生成到的敌人索引
         completed: 关卡是否完成
     """
+    
+    bg_images_cache = {}
     
     def __init__(self, level_index=0):
         """
@@ -45,6 +50,8 @@ class Level:
             
             self.spawn_interval = self.config['spawn_interval']
             self.bg_color = self.config['bg_color']
+            self.bg_image_filename = self.config.get('bg_image')
+            self.bg_image = None
             self.enemy_index = 0
             self.completed = False
         else:
@@ -54,8 +61,42 @@ class Level:
             self.enemies = []
             self.spawn_interval = 0
             self.bg_color = (0, 0, 0)
+            self.bg_image = None
             self.enemy_index = 0
             self.completed = True
+    
+    def ensure_bg_image_loaded(self):
+        """
+        延迟加载背景图片（确保在pygame.display初始化后调用）
+        
+        返回:
+            pygame.Surface or None: 背景图片，加载失败返回None
+        """
+        if self.bg_image is not None:
+            return self.bg_image
+        
+        if not self.bg_image_filename:
+            return None
+        
+        if self.bg_image_filename in self.bg_images_cache:
+            self.bg_image = self.bg_images_cache[self.bg_image_filename]
+            return self.bg_image
+        
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        images_dir = os.path.join(current_dir, "..", "assets", "images")
+        images_dir = os.path.normpath(images_dir)
+        full_path = os.path.join(images_dir, self.bg_image_filename)
+        
+        try:
+            img = pygame.image.load(full_path).convert()
+            scaled_img = pygame.transform.scale(img, (SCREEN_WIDTH, SCREEN_HEIGHT))
+            self.bg_images_cache[self.bg_image_filename] = scaled_img
+            self.bg_image = scaled_img
+            print(f"Loaded background: {full_path}")
+            return scaled_img
+        except Exception as e:
+            print(f"Failed to load background {full_path}: {e}")
+            return None
 
     def get_next_enemy_type(self):
         """

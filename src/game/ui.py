@@ -159,9 +159,9 @@ class UI:
         参数:
             screen: pygame显示表面
         """
-        # 绘制半透明遮罩
+        # 绘制半透明遮罩（透明度降低以便显示背景）
         overlay = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
-        overlay.set_alpha(200)
+        overlay.set_alpha(120)
         overlay.fill(BLACK)
         screen.blit(overlay, (0, 0))
         

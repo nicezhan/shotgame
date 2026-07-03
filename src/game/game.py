@@ -91,7 +91,7 @@ class Game:
                         self.current_state = GameState.PLAYING
 
     def spawn_enemy(self):
-        """根据关卡配置生成敌人（带间隔限制和数量限制）"""
+        """根据关卡配置生成敌人（带间隔限制和数量限制），敌人攻击力随关卡递增"""
         now = pygame.time.get_ticks()
         
         # 检查是否达到生成间隔
@@ -101,8 +101,8 @@ class Game:
                 # 获取下一个要生成的敌人类型
                 enemy_type = self.level.get_next_enemy_type()
                 if enemy_type:
-                    # 创建敌人并添加到列表
-                    enemy = Enemy(enemy_type)
+                    # 创建敌人并添加到列表（传入当前关卡索引用于伤害加成）
+                    enemy = Enemy(enemy_type, self.level.level_index)
                     self.enemies.append(enemy)
                     self.last_spawn_time = now
 
@@ -153,8 +153,14 @@ class Game:
 
     def render(self):
         """绘制游戏界面"""
-        # 填充背景色
-        self.screen.fill(self.level.bg_color)
+        # 确保背景图片已加载
+        self.level.ensure_bg_image_loaded()
+        
+        # 绘制背景（优先使用背景图片）
+        if self.level.bg_image:
+            self.screen.blit(self.level.bg_image, (0, 0))
+        else:
+            self.screen.fill(self.level.bg_color)
         
         # 游戏中或暂停状态：绘制玩家、敌人和UI
         if self.current_state == GameState.PLAYING or self.current_state == GameState.PAUSED:

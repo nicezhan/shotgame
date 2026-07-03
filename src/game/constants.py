@@ -49,9 +49,9 @@ ENEMY_TYPES = {
     'minion': {
         'width': 45,
         'height': 55,
-        'speed': 2,
+        'speed': 1.33,
         'health': 30,
-        'attack': 10,
+        'attack': 5,
         'defense': 0,
         'color': (139, 69, 19),
         'score': 100,
@@ -60,9 +60,9 @@ ENEMY_TYPES = {
     'elite': {
         'width': 50,
         'height': 60,
-        'speed': 3,
+        'speed': 2,
         'health': 60,
-        'attack': 20,
+        'attack': 10,
         'defense': 5,
         'color': (255, 69, 0),
         'score': 250,
@@ -71,9 +71,9 @@ ENEMY_TYPES = {
     'boss': {
         'width': 100,
         'height': 120,
-        'speed': 1,
+        'speed': 0.67,
         'health': 500,
-        'attack': 30,
+        'attack': 15,
         'defense': 15,
         'color': (128, 0, 128),
         'score': 1000,
@@ -81,25 +81,80 @@ ENEMY_TYPES = {
     }
 }
 
+# 难度递增配置
+DIFFICULTY_PER_LEVEL = 0.10
+
 # 关卡配置列表
 LEVELS = [
     {
         'name': 'Level 1 - Training Camp',
         'enemies': [{'type': 'minion', 'count': 5}],
         'spawn_interval': 2000,
-        'bg_color': (30, 30, 50)
+        'bg_color': (30, 30, 50),
+        'bg_image': 'bg_training_camp.png'
     },
     {
-        'name': 'Level 2 - Jungle',
-        'enemies': [{'type': 'minion', 'count': 5}, {'type': 'elite', 'count': 3}],
+        'name': 'Level 2 - Forest',
+        'enemies': [{'type': 'minion', 'count': 7}],
+        'spawn_interval': 1900,
+        'bg_color': (25, 40, 35),
+        'bg_image': 'bg_forest.png'
+    },
+    {
+        'name': 'Level 3 - Jungle',
+        'enemies': [{'type': 'minion', 'count': 7}, {'type': 'elite', 'count': 2}],
+        'spawn_interval': 1800,
+        'bg_color': (20, 50, 30),
+        'bg_image': 'bg_jungle.png'
+    },
+    {
+        'name': 'Level 4 - Canyon',
+        'enemies': [{'type': 'minion', 'count': 7}, {'type': 'elite', 'count': 4}],
+        'spawn_interval': 1700,
+        'bg_color': (60, 40, 20),
+        'bg_image': 'bg_canyon.png'
+    },
+    {
+        'name': 'Level 5 - Fortress',
+        'enemies': [{'type': 'minion', 'count': 6}, {'type': 'elite', 'count': 4}, {'type': 'boss', 'count': 1}],
+        'spawn_interval': 1600,
+        'bg_color': (40, 40, 40),
+        'bg_image': 'bg_fortress.png'
+    },
+    {
+        'name': 'Level 6 - Wasteland',
+        'enemies': [{'type': 'minion', 'count': 9}, {'type': 'elite', 'count': 4}],
         'spawn_interval': 1500,
-        'bg_color': (20, 50, 30)
+        'bg_color': (50, 45, 40),
+        'bg_image': 'bg_wasteland.png'
     },
     {
-        'name': 'Level 3 - Fortress',
-        'enemies': [{'type': 'minion', 'count': 4}, {'type': 'elite', 'count': 4}, {'type': 'boss', 'count': 1}],
-        'spawn_interval': 1200,
-        'bg_color': (40, 40, 40)
+        'name': 'Level 7 - Desert',
+        'enemies': [{'type': 'minion', 'count': 9}, {'type': 'elite', 'count': 6}],
+        'spawn_interval': 1450,
+        'bg_color': (60, 50, 30),
+        'bg_image': 'bg_desert.png'
+    },
+    {
+        'name': 'Level 8 - Volcano',
+        'enemies': [{'type': 'minion', 'count': 10}, {'type': 'elite', 'count': 8}],
+        'spawn_interval': 1400,
+        'bg_color': (50, 25, 20),
+        'bg_image': 'bg_volcano.png'
+    },
+    {
+        'name': 'Level 9 - Ice Cave',
+        'enemies': [{'type': 'minion', 'count': 10}, {'type': 'elite', 'count': 10}],
+        'spawn_interval': 1350,
+        'bg_color': (40, 50, 60),
+        'bg_image': 'bg_ice_cave.png'
+    },
+    {
+        'name': 'Level 10 - Final Boss',
+        'enemies': [{'type': 'minion', 'count': 8}, {'type': 'elite', 'count': 8}, {'type': 'boss', 'count': 1}],
+        'spawn_interval': 1300,
+        'bg_color': (20, 20, 30),
+        'bg_image': 'bg_final_boss.png'
     }
 ]
 
